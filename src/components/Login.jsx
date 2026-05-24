@@ -2,19 +2,23 @@ import axios from "axios";
 import { useState } from "react";
 
 const Login = () => {
-  const [emailId, setEmailId] = useState("");
-  const [Password, setPassword] = useState("");
+  const [emailID, setEmailID] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin= async()=>{
-    try{
-        const res=axios.post("http://localhost:3000/login", {
-        emailId,
-        Password,
-    })
-    }catch(err){
-        console.error(err);
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/login",
+        {
+          emailID,
+          password,
+        },
+        { withCredentials: true },
+      );
+    } catch (err) {
+      console.error(err);
     }
-  }
+  };
   return (
     <div className="flex justify-center my-20">
       <div className="card card-border bg-base-100 w-96">
@@ -25,23 +29,25 @@ const Login = () => {
               <legend className="fieldset-legend">Email Id:</legend>
               <input
                 type="text"
-                value={emailId}
+                value={emailID}
                 className="input"
-                onChange={(e) => setEmailId(e.target.value)}
+                onChange={(e) => setEmailID(e.target.value)}
               />
             </fieldset>
             <fieldset className="fieldset">
               <legend className="fieldset-legend">Password</legend>
               <input
                 type="text"
-                value={Password}
+                value={password}
                 className="input"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </fieldset>
           </div>
           <div className="card-actions justify-center">
-            <button className="btn btn-primary" onClick={handleLogin}>Login</button>
+            <button className="btn btn-primary" onClick={handleLogin}>
+              Login
+            </button>
           </div>
         </div>
       </div>
