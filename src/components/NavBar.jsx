@@ -1,16 +1,34 @@
-import { useSelector } from "react-redux";
-import { Link } from "react-router";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router";
+import { BASE_URL } from "../utils/data";
+import { removeUser } from "../store/userSlice";
 
 const NavBar = () => {
   // subscribed to store to fetch user details from store and added in navbar
   const user = useSelector((store) => store.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handlelogout = async () => {
+    try {
+      await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
+      // when logout=> remove user from store
+      dispatch(removeUser());
+      // and navigate to login page
+      return navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
       {/* navbar */}
       <div className="navbar bg-base-300 shadow-sm">
         <div className="flex-1">
-          <Link to="/" className="btn btn-ghost text-xl">PairUpDev</Link>
+          <Link to="/" className="btn btn-ghost text-xl">
+            PairUpDev
+          </Link>
         </div>
         <div className="flex gap-2">
           <input
@@ -26,11 +44,7 @@ const NavBar = () => {
                 className="btn btn-ghost btn-circle avatar"
               >
                 <div className="w-10 rounded-full">
-                  <img
-                    alt="user photo"
-                    src={user.photoUrl}
-                  />
-                 
+                  <img alt="user photo" src={user.photoUrl} />
                 </div>
               </div>
               <p>Welcome, {user.firstName}</p>
@@ -48,7 +62,7 @@ const NavBar = () => {
                   <a>Settings</a>
                 </li>
                 <li>
-                  <a>Logout</a>
+                  <a onClick={handlelogout}>Logout</a>
                 </li>
               </ul>
             </div>

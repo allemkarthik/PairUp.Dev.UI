@@ -8,6 +8,7 @@ import { BASE_URL } from "../utils/data";
 const Login = () => {
   const [emailID, setEmailID] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError]=useState("")
   const userData=useSelector((store)=>store.user)
   
   const dispatch = useDispatch();
@@ -35,7 +36,8 @@ const Login = () => {
       // after login sucessfull we will navigate to feed page
       return navigate("/");
     } catch (err) {
-      console.error(err);
+      setError(err?.response?.data || "something went wrong");
+      
     }
   };
   return (
@@ -63,6 +65,7 @@ const Login = () => {
               />
             </fieldset>
           </div>
+          <p className="text-red-600">{error}</p>
           <div className="card-actions justify-center">
             <button className="btn btn-primary" onClick={handleLogin}>
               Login
