@@ -2,41 +2,40 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { BASE_URL } from "../utils/data";
 import { useDispatch, useSelector } from "react-redux";
-import { addConnections } from "../store/connectionSlice";
+import { addRequests } from "../store/requestsSlice";
 
-const Connections = () => {
-  const connections = useSelector((store) => store.connections);
+const Requests = () => {
+    const requests=useSelector((store)=> store.requests)
   const dispatch = useDispatch();
-  const fetchConnection = async () => {
+  const fetchRequest = async () => {
     try {
-      const res = await axios.get(BASE_URL + "/user/connections", {
+      const res = await axios.get(BASE_URL + "/user/allrequests/received", {
         withCredentials: true,
       });
-      
-      dispatch(addConnections(res?.data?.data));
+      dispatch(addRequests(res?.data?.data));
     } catch (err) {
-      // handle error case
+      //handle err
     }
   };
 
   useEffect(() => {
-    fetchConnection();
+    fetchRequest();
   }, []);
-  
-  if (!connections?.length) {
+
+  if (!requests?.length) {
     return (
-      <h1 className="text-center text-2xl my-10">No Connections Found!!</h1>
+      <h1 className="text-center text-2xl my-10">No Requests Found!!</h1>
     );
   }
 
   return (
     <div className="my-10">
-      <h1 className="text-center font-bold text-4xl mb-8">Connections</h1>
+      <h1 className="text-center font-bold text-4xl mb-8">Connections Requests Recevied</h1>
 
       <div className="flex flex-col items-center">
-        {connections.map((connection) => {
+        {requests.map((request) => {
           const { _id, firstName, lastName, photoUrl, age, gender, about } =
-            connection;
+            request.fromUserId;
 
           return (
             <div
@@ -68,6 +67,8 @@ const Connections = () => {
       </div>
     </div>
   );
+
+ 
 };
 
-export default Connections;
+export default Requests;
