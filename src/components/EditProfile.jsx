@@ -35,8 +35,10 @@ const EditProfile = ({ user }) => {
       );
       console.log(res);
       dispatch(addUser(res?.data?.data));
+      // show toast when profile updated
       setShowToast(true);
       setTimeout(() => {
+        // make it to 3 seconds
         setShowToast(false);
       }, 3000);
     } catch (err) {
