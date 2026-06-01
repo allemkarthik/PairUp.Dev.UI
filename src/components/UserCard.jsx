@@ -17,8 +17,8 @@ const UserCard = ({ user }) => {
           <p>{about}</p>
           <p>Skills: {Array.isArray(skills) ? skills.join(", ") : skills}</p>
           <div className="card-actions justify-center my-4">
-            <button className="btn btn-primary">Ignore</button>
-            <button className="btn btn-secondary">Interested</button>
+            <button className="btn btn-soft btn-secondary">Ignore</button>
+            <button className="btn btn-soft btn-info">Interested</button>
           </div>
         </div>
       </div>
