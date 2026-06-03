@@ -23,10 +23,23 @@ const Feed = () => {
   useEffect(() => {
     getFeed();
   }, []);
+
+  if (!feed) return null;
+
+  if (feed.length === 0) {
+    return (
+      <div className="flex justify-center my-10">
+        <h1 className="text-3xl font-bold">
+          No New Developers Found
+        </h1>
+      </div>
+    );
+  }
   return (
-    feed &&
-    <div className="flex justify-center my-10">
-      <UserCard  user={feed[1]}/>
+    <div className="flex flex-wrap justify-center gap-6 my-10">
+      {feed?.map((user) => (
+        <UserCard key={user._id} user={user} />
+      ))}
     </div>
   );
 };
