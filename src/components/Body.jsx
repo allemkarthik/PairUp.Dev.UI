@@ -13,16 +13,17 @@ const Body = () => {
   //   api for profile view and did not logout after every refresh unless logout
   const fetchUser = async () => {
     // make api call only when logout not to make api call again again (check if user is present in redux store)
-    if (userData) return;
+    if (userData!== null) return;
     try {
       const res = await axios.get(BASE_URL + "/profile/view", {
         withCredentials: true,
       });
-      dispatch(addUser(res.data));
+      dispatch(addUser(res.data.data));
     } catch (err) {
       // if login failed navigate again to login page
-      if (err.status == 401) {
+      if (err.response?.status == 401) {
         navigate("/login");
+        return;
       }
       console.log(err);
     }

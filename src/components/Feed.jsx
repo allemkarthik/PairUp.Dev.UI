@@ -7,24 +7,43 @@ import UserCard from "./UserCard";
 
 const Feed = () => {
   const feed = useSelector((store) => store.feed);
+  const user = useSelector((store) => store.user);
+
   const dispatch = useDispatch();
+
   const getFeed = async () => {
-    if (feed) return;
     try {
       const res = await axios.get(BASE_URL + "/feed", {
         withCredentials: true,
       });
+
       dispatch(addFeed(res?.data?.data));
     } catch (err) {
-      // todo error message dispaly
+      console.error(err);
     }
   };
 
   useEffect(() => {
-    getFeed();
-  }, []);
+    if (user) {
+      getFeed();
+    }
+  }, [user]);
 
-  if (!feed) return null;
+  if (!user) {
+    return (
+      <div className="flex justify-center my-10">
+        <h1>Loading...</h1>
+      </div>
+    );
+  }
+
+  if (!feed) {
+    return (
+      <div className="flex justify-center my-10">
+        <h1>Loading Feed...</h1>
+      </div>
+    );
+  }
 
   if (feed.length === 0) {
     return (
@@ -35,9 +54,10 @@ const Feed = () => {
       </div>
     );
   }
+
   return (
     <div className="flex flex-wrap justify-center gap-6 my-10">
-      {feed?.map((user) => (
+      {feed.map((user) => (
         <UserCard key={user._id} user={user} />
       ))}
     </div>
