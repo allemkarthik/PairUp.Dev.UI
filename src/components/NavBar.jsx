@@ -25,11 +25,19 @@ const NavBar = () => {
     <>
       {/* navbar */}
       <div className="navbar bg-base-300 shadow-sm">
-        <div className="flex-1">
-          <Link to="/" className="btn btn-ghost text-xl">
-            PairUpDev
-          </Link>
-        </div>
+        <div className="flex flex-1 items-center gap-3">
+  <Link to="/" className="flex items-center gap-2 group">
+    <img
+      src="/src/assets/logo.png"
+      alt="PairUpDev Logo"
+      className="h-10 w-10 object-contain transition-transform group-hover:scale-105"
+    />
+
+    <span className="text-xl font-bold tracking-wide text-base-content group-hover:text-primary transition-colors">
+      PairUpDev
+    </span>
+  </Link>
+</div>
         <div className="flex gap-2">
           <input
             type="text"

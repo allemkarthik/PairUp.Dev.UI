@@ -5,9 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../store/feedSlice";
 import UserCard from "./UserCard";
 
+
+
 const Feed = () => {
   const feed = useSelector((store) => store.feed);
   const user = useSelector((store) => store.user);
+
+  // const store = useSelector((store) => store);
+
+
 
   const dispatch = useDispatch();
 
@@ -37,13 +43,13 @@ const Feed = () => {
     );
   }
 
-  if (!feed) {
-    return (
-      <div className="flex justify-center my-10">
-        <h1>Loading Feed...</h1>
-      </div>
-    );
-  }
+  if (feed === null) {
+  return (
+    <div className="flex justify-center my-10">
+      <h1>Loading Feed...</h1>
+    </div>
+  );
+}
 
   if (feed.length === 0) {
     return (
@@ -57,9 +63,8 @@ const Feed = () => {
 
   return (
     <div className="flex flex-wrap justify-center gap-6 my-10">
-      {feed.map((user) => (
-        <UserCard key={user._id} user={user} />
-      ))}
+      {/* it will show one card at a time regardless of accepted or rejected */}
+       <UserCard user={feed[0]} />
     </div>
   );
 };
