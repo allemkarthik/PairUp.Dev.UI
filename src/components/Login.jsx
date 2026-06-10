@@ -13,17 +13,17 @@ const Login = () => {
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [error, setError] = useState("");
 
-  const userData = useSelector((store) => store.user);
+  // const userData = useSelector((store) => store.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Redirect if user is already logged in
-  useEffect(() => {
-    if (userData) {
-      navigate("/");
-    }
-  }, [userData, navigate]);
+  // // Redirect if user is already logged in
+  // useEffect(() => {
+  //   if (userData) {
+  //     navigate("/");
+  //   }
+  // }, [userData, navigate]);
 
     
 
@@ -64,10 +64,11 @@ const Login = () => {
 
       dispatch(addUser(res.data.data));
 
+      // navigate to edit profile after a creating a user
       navigate("/profile");
     } catch (err) {
       console.log("Signup Error:", err.response);
-      setError(err?.response?.data || "Something went wrong");
+      setError(err?.response?.statusText || "Something went wrong");
     }
   };
 
