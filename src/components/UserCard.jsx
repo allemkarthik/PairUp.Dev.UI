@@ -1,10 +1,10 @@
 import axios from "axios";
-import React from "react";
 import { BASE_URL } from "../utils/data";
 import { useDispatch } from "react-redux";
 import { removeUserFromFeed } from "../store/feedSlice";
 
 const UserCard = ({ user }) => {
+  const dispatch = useDispatch();
   if (!user) return null;
   const {
     _id,
@@ -15,46 +15,90 @@ const UserCard = ({ user }) => {
     gender,
     about,
     skills,
-    emailID,
+    
   } = user;
-  const dispatch = useDispatch();
 
   // sending connection request
-  const handleSendRequest = async (status, userid) => {
+  const handleSendRequest = async (status, userId) => {
     try {
       const res = await axios.post(
-        BASE_URL + "/request/send/" + status + "/" + userid,
+         `${BASE_URL}/request/send/${status}/${userId}`,
         {},
         { withCredentials: true },
-        dispatch(removeUserFromFeed(userid)),
       );
-    } catch (err) {}
+      dispatch(removeUserFromFeed(userId));
+    } catch (err) {
+      //handle error here
+      console.error(err);
+    }
   };
-  return (
-    <div>
-      <div className="card bg-base-300 w-96 shadow-sm">
-        <figure>
-          <img src={photoUrl} alt="photo" />
+   return (
+    <div className="w-full max-w-md">
+      <div className="card bg-base-100 shadow-xl border border-base-300 hover:shadow-2xl transition-all duration-300">
+
+        {/* Image */}
+        <figure className="h-80 overflow-hidden">
+          <img
+            src={photoUrl}
+            alt={firstName}
+            className="w-full h-full object-cover"
+          />
         </figure>
+
+        {/* Content */}
         <div className="card-body">
-          <h2 className="card-title">{firstName + " " + lastName}</h2>
-          {age && <h3>Age: {age}</h3>}
-          {gender && <h3>Gender: {gender}</h3>}
-          <p>{about}</p>
-          <p>Skills: {Array.isArray(skills) ? skills.join(", ") : skills}</p>
-          <div className="card-actions justify-center my-4">
+
+          {/* Name */}
+          <h2 className="card-title text-2xl">
+            {firstName} {lastName}
+          </h2>
+
+          {/* Age + Gender */}
+          <div className="flex gap-3 text-sm text-gray-500">
+            {age && <span>🎂 {age}</span>}
+            {gender && <span>👤 {gender}</span>}
+          </div>
+
+          {/* About */}
+          <p className="mt-2 text-sm leading-relaxed">
+            {about || "No bio available"}
+          </p>
+
+          {/* Skills */}
+          {skills?.length > 0 && (
+            <div className="flex flex-wrap gap-2 mt-3">
+              {skills.map((skill, index) => (
+                <span
+                  key={index}
+                  className="badge badge-primary badge-outline"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {/* Buttons */}
+          <div className="card-actions justify-between mt-6">
+
             <button
-              className="btn btn-soft btn-secondary"
-              onClick={()=>handleSendRequest("ignored", _id)}
+              className="btn btn-outline btn-error flex-1"
+              onClick={() =>
+                handleSendRequest("ignored", _id)
+              }
             >
-              Ignore
+              ❌ Ignore
             </button>
+
             <button
-              className="btn btn-soft btn-info"
-              onClick={()=>handleSendRequest("interested",_id)}
+              className="btn btn-primary flex-1"
+              onClick={() =>
+                handleSendRequest("interested", _id)
+              }
             >
-              Interested
+              ❤️ Connect
             </button>
+
           </div>
         </div>
       </div>

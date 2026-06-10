@@ -1,130 +1,185 @@
 import React, { useState } from "react";
-import UserCard from "./UserCard";
 import axios from "axios";
 import { BASE_URL } from "../utils/data";
 import { useDispatch } from "react-redux";
 import { addUser } from "../store/userSlice";
+import UserCard from "./UserCard";
 
 const EditProfile = ({ user }) => {
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [age, setage] = useState(user.age || "");
-  const [about, setabout] = useState(user.about);
-  const [skills, setskills] = useState(
-    Array.isArray(user.skills) ? user.skills.join(", ") : user.skills || "",
-  );
-  const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
-  const [error, setError] = useState("");
   const dispatch = useDispatch();
+
+  // .env import for cloudinary images
+  const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset =import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
+  //single state instead of multiple useStates
+  const [form, setForm] = useState({
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    age: user?.age || "",
+    about: user?.about || "",
+    skills: Array.isArray(user?.skills)
+      ? user.skills.join(", ")
+      : user?.skills || "",
+    photoUrl: user?.photoUrl || "",
+  });
+
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
-  const saveProfile = async () => {
-    setError("");
+  // input handler
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  //Image Upload (Cloudinary)
+  const handleImageUpload = async (e) => {
     try {
-      const res = await axios.patch(
-        BASE_URL + "/profile/edit",
-        {
-          firstName,
-          lastName,
-          photoUrl,
-          about,
-          skills: skills.split(",").map((s) => s.trim()),
-          age,
-        },
-        { withCredentials: true },
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", uploadPreset);
+
+      // api call to cloudinary images
+      const res = await axios.post(
+       `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+        data
       );
-      console.log(res);
-      dispatch(addUser(res?.data?.data));
-      // show toast when profile updated
-      setShowToast(true);
-      setTimeout(() => {
-        // make it to 3 seconds
-        setShowToast(false);
-      }, 3000);
+
+      setForm((prev) => ({
+        ...prev,
+        photoUrl: res.data.secure_url,
+      }));
     } catch (err) {
-      setError(err?.response?.data || "Something went wrong");
+      setError("Image upload failed");
     }
   };
+
+  // Save Profile
+  const saveProfile = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      // user details to edit information
+      const payload = {
+        ...form,
+        skills: form.skills
+          .split(",")
+          .map((s) => s.trim())
+          .filter(Boolean),
+      };
+
+      // api for profile edit
+      const res = await axios.patch(
+        `${BASE_URL}/profile/edit`,
+        payload,
+        { withCredentials: true }
+      );
+
+      //update user data in redux
+      dispatch(addUser(res?.data?.data));
+
+      // show profile updated badge
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);  //visible for 3 seconds
+    } catch (err) {
+      setError(err?.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <>
-      <div className="flex justify-center my-10">
-        <div className="flex justify-center mx-10">
-          <div className="card card-border bg-base-100 w-96">
-            <div className="card-body">
-              <h2 className="card-title justify-center">Edit Profile</h2>
-              <div>
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">FirstName</legend>
+      <div className="flex justify-center my-10 gap-10 flex-wrap">
+
+        {/* EDIT FORM */}
+        <div className="card w-96 bg-base-100 shadow-xl">
+          <div className="card-body">
+            <h2 className="text-center text-xl font-bold">
+              Edit Profile
+            </h2>
+
+            {/* Profile Image Upload */}
+            <fieldset className="fieldset">
+              <legend className="fieldset-legend">Profile Photo</legend>
+
+              {form.photoUrl && (
+                <img
+                  src={form.photoUrl}
+                  alt="profile"
+                  className="w-20 h-20 rounded-full mx-auto mb-2"
+                />
+              )}
+
+              <input
+                type="file"
+                accept="image/*"
+                className="file-input file-input-bordered w-full"
+                onChange={handleImageUpload}
+              />
+            </fieldset>
+
+            {/* Inputs */}
+            {["firstName", "lastName", "age", "skills", "about"].map(
+              (field) => (
+                <fieldset className="fieldset" key={field}>
+                  <legend className="fieldset-legend">
+                    {field}
+                  </legend>
+
                   <input
-                    type="text"
-                    value={firstName}
-                    className="input"
-                    onChange={(e) => setFirstName(e.target.value)}
+                    type={field === "age" ? "number" : "text"}
+                    name={field}
+                    value={form[field]}
+                    onChange={handleChange}
+                    className="input input-bordered w-full"
                   />
                 </fieldset>
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">lastName</legend>
-                  <input
-                    type="text"
-                    value={lastName}
-                    className="input"
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </fieldset>
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">photoUrl</legend>
-                  <input
-                    type="text"
-                    value={photoUrl}
-                    className="input"
-                    onChange={(e) => setPhotoUrl(e.target.value)}
-                  />
-                </fieldset>
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">skills</legend>
-                  <input
-                    type="text"
-                    value={skills}
-                    className="input"
-                    onChange={(e) => setskills(e.target.value)}
-                  />
-                </fieldset>
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">about</legend>
-                  <input
-                    type="text"
-                    value={about}
-                    className="input"
-                    onChange={(e) => setabout(e.target.value)}
-                  />
-                </fieldset>
-                <fieldset className="fieldset">
-                  <legend className="fieldset-legend">age</legend>
-                  <input
-                    type="number"
-                    value={age}
-                    className="input"
-                    onChange={(e) => setage(e.target.value)}
-                  />
-                </fieldset>
-              </div>
-              <p className="text-red-600">{error}</p>
-              <div className="card-actions justify-center">
-                <button className="btn btn-primary" onClick={saveProfile}>
-                  Save Profile
-                </button>
-              </div>
+              )
+            )}
+
+            {/* Error */}
+            {error && (
+              <p className="text-red-500 text-sm">{error}</p>
+            )}
+
+            {/* Save Button */}
+            <div className="card-actions justify-center mt-4">
+              <button
+                className="btn btn-primary w-full"
+                onClick={saveProfile}
+                disabled={loading}
+              >
+                {loading ? "Saving..." : "Save Profile"}
+              </button>
             </div>
           </div>
         </div>
+
+        {/* LIVE PREVIEW CARD */}
         <UserCard
-          user={{ firstName, lastName, photoUrl, about, skills, age }}
+          user={{
+            ...form,
+            skills: form.skills
+              .split(",")
+              .map((s) => s.trim()),
+          }}
         />
       </div>
+
+      {/* TOAST */}
       {showToast && (
         <div className="toast toast-top toast-center">
           <div className="alert alert-success">
-            <span>profile saved sucuessfully</span>
+            <span>Profile updated successfully 🚀</span>
           </div>
         </div>
       )}
