@@ -7,6 +7,8 @@ import { addConnections } from "../store/connectionSlice";
 const Connections = () => {
   const connections = useSelector((store) => store.connections);
   const dispatch = useDispatch();
+
+  //fetch connections
   const fetchConnection = async () => {
     try {
       const res = await axios.get(BASE_URL + "/user/connections", {
@@ -16,6 +18,8 @@ const Connections = () => {
       dispatch(addConnections(res?.data?.data));
     } catch (err) {
       // handle error case
+      console.log(err);
+      
     }
   };
 

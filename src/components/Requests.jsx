@@ -31,6 +31,8 @@ const Requests = () => {
       dispatch(addRequests(res?.data?.data));
     } catch (err) {
       //handle err
+      console.log(err);
+      
     }
   };
 
