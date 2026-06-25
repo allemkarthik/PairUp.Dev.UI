@@ -33,7 +33,7 @@ const UserCard = ({ user }) => {
     }
   };
    return (
-    <div className="w-full max-w-md">
+    <div className="w-full max-w-md mb-20">
       <div className="card bg-base-100 shadow-xl border border-base-300 hover:shadow-2xl transition-all duration-300">
 
         {/* Image */}

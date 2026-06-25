@@ -5,6 +5,7 @@ import { BASE_URL } from "../utils/data";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../store/userSlice";
 import { useEffect } from "react";
+import Footer from "./Footer";
 
 // console.log("addUser Action:", addUser);
 
@@ -50,9 +51,12 @@ const Body = () => {
   }, []);
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <NavBar />
-      <Outlet />
+      <main className="flex-1 pb-24">
+        <Outlet />
+      </main>
+      <Footer />
     </div>
   );
 };

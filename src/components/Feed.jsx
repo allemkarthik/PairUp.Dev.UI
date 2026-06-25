@@ -28,7 +28,7 @@ const Feed = () => {
 
       const res = await axios.get(
         `${BASE_URL}/feed?page=${pageNumber}&limit=10`,
-        { withCredentials: true }
+        { withCredentials: true },
       );
 
       const newUsers = res?.data?.data || [];
@@ -42,7 +42,6 @@ const Feed = () => {
 
       // 🔥 increment ONLY after successful fetch
       setPage((prev) => prev + 1);
-
     } catch (err) {
       console.error(err);
     } finally {
@@ -92,18 +91,18 @@ const Feed = () => {
   }
 
   return (
-    <div className="flex flex-col items-center gap-6 my-10">
-      {Array.isArray(feed) && feed.map((u) => (
-        <UserCard key={u._id} user={u} />
-      ))}
+    <div className="flex flex-col items-center justify-center my-10 pb-24">
+      {/* one card at a time */}
+      {Array.isArray(feed) && feed.length > 0 && <UserCard user={feed[0]} />}
 
-      {loading && (
-        <p className="text-gray-500">Loading more users...</p>
+      {loading && <p className="text-gray-500">Loading more users...</p>}
+
+      {/* empty state */}
+      {!loading && Array.isArray(feed) && feed.length === 0 && (
+        <p className="text-gray-400 mt-10">No New Developers Found</p>
       )}
 
-      {!hasMore && (
-        <p className="text-gray-400">No more users</p>
-      )}
+     
     </div>
   );
 };
