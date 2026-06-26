@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/data";
 import { useDispatch } from "react-redux";

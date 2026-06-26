@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../store/userSlice";
 import { useEffect } from "react";
 import Footer from "./Footer";
+import MobileBottomNav from "./MobileBottomNav";
 
 // console.log("addUser Action:", addUser);
 
@@ -57,6 +58,7 @@ const Body = () => {
         <Outlet />
       </main>
       <Footer />
+      {userData && <MobileBottomNav />}
     </div>
   );
 };
