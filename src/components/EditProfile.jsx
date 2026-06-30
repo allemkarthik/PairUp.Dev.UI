@@ -16,7 +16,6 @@ const EditProfile = ({ user }) => {
   const [form, setForm] = useState({
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
-    age: user?.age || "",
     about: user?.about || "",
     skills: Array.isArray(user?.skills)
       ? user.skills.join(", ")
@@ -128,7 +127,7 @@ const EditProfile = ({ user }) => {
             </fieldset>
 
             {/* Inputs */}
-            {["firstName", "lastName", "age", "skills", "about"].map(
+            {["firstName", "lastName",  "skills", "about"].map(
               (field) => (
                 <fieldset className="fieldset" key={field}>
                   <legend className="fieldset-legend">
@@ -136,7 +135,7 @@ const EditProfile = ({ user }) => {
                   </legend>
 
                   <input
-                    type={field === "age" ? "number" : "text"}
+                    type={field}
                     name={field}
                     value={form[field]}
                     onChange={handleChange}

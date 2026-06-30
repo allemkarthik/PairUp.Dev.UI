@@ -12,6 +12,7 @@ const Login = () => {
   const [lastName, setLastName] = useState("");
   const [isLoginForm, setIsLoginForm] = useState(true);
   const [error, setError] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
 
   // const userData = useSelector((store) => store.user);
 
@@ -24,8 +25,6 @@ const Login = () => {
   //     navigate("/");
   //   }
   // }, [userData, navigate]);
-
-    
 
   // Handle login
   const handleLogin = async () => {
@@ -58,7 +57,7 @@ const Login = () => {
     try {
       const res = await axios.post(
         BASE_URL + "/signup",
-        { firstName, lastName, emailID, password },
+        { firstName, lastName, emailID, password, dateOfBirth },
         { withCredentials: true },
       );
 
@@ -103,6 +102,18 @@ const Login = () => {
                   className="input input-bordered w-full"
                   placeholder="Enter your last name"
                   onChange={(e) => setLastName(e.target.value)}
+                />
+              </fieldset>
+
+              <fieldset className="fieldset">
+                <legend className="fieldset-legend">Date of Birth</legend>
+
+                <input
+                  type="date"
+                  name="dateOfBirth"
+                  className="input input-bordered"
+                  onChange={(e) => setDateOfBirth(e.target.value)}
+                  required
                 />
               </fieldset>
             </>
