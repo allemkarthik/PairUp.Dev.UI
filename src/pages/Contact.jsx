@@ -14,7 +14,7 @@ const Contact = () => {
       <div className="space-y-4">
         <div>
           <h2 className="font-semibold">Email</h2>
-          <p>support@pairup.dev</p>
+          <p>allemkarthik@gmail.com</p>
         </div>
 
         <div>
