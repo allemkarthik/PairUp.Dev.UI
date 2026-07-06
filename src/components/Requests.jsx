@@ -3,10 +3,19 @@ import React, { useEffect } from "react";
 import { BASE_URL } from "../utils/data";
 import { useDispatch, useSelector } from "react-redux";
 import { addRequests, removeRequest } from "../store/requestsSlice";
+import { useNavigate } from "react-router";
 
 const Requests = () => {
   const requests = useSelector((store) => store.requests);
   const dispatch = useDispatch();
+
+  const userData = useSelector((store) => store.user);
+  const navigate = useNavigate();
+  if(!userData){
+    navigate("/login")
+  }
+ 
+
 
   //api for review request to accept or reject
   const reviewRequest = async (status, _id) => {

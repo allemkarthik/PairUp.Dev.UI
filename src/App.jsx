@@ -13,6 +13,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Contact from "./pages/Contact";
 import RefundPolicy from "./pages/RefundPolicy";
+import Premium from "./pages/Premium";
 function App() {
   return (
     <>
@@ -30,6 +31,8 @@ function App() {
               <Route path="/terms" element={<Terms />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/refund-policy" element={<RefundPolicy />} />
+              <Route path="/upgrade-to-premium" element={<Premium />} />
+
             </Route>
           </Routes>
         </BrowserRouter>

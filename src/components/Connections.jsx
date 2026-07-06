@@ -3,10 +3,19 @@ import  { useEffect } from "react";
 import { BASE_URL } from "../utils/data";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../store/connectionSlice";
+import { useNavigate } from "react-router";
 
 const Connections = () => {
   const connections = useSelector((store) => store.connections);
   const dispatch = useDispatch();
+
+   const userData = useSelector((store) => store.user);
+  const navigate = useNavigate();
+  if(!userData){
+    navigate("/login")
+  }
+  
+
 
   //fetch connections
   const fetchConnection = async () => {

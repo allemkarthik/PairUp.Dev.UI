@@ -4,12 +4,21 @@ import { BASE_URL } from "../utils/data";
 import { useDispatch, useSelector } from "react-redux";
 import { addFeed } from "../store/feedSlice";
 import UserCard from "./UserCard";
+import { useNavigate } from "react-router";
 
 const Feed = () => {
   const feed = useSelector((store) => store.feed);
   const user = useSelector((store) => store.user);
 
   const dispatch = useDispatch();
+
+   
+  const navigate = useNavigate();
+  if(!user){
+    navigate("/login")
+  }
+  
+
 
   // pagination state
   const [page, setPage] = useState(1);

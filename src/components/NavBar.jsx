@@ -59,6 +59,9 @@ const NavBar = () => {
             <Link to="/allrequests" className={navLinkStyle("/allrequests")}>
               Requests
             </Link>
+            <Link to="/upgrade-to-premium" className={navLinkStyle("/upgrade-to-premium")}>
+              Upgrade Now
+            </Link>
 
             <div className="divider divider-horizontal mx-1"></div>
 
@@ -115,6 +118,10 @@ const NavBar = () => {
 
               <li>
                 <Link to="/contact">Contact</Link>
+              </li>
+
+              <li>
+                <Link to="/upgrade-to-premium">Upgrade to Premium</Link>
               </li>
 
               <div className="divider my-1"></div>

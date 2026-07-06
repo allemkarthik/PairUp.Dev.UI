@@ -1,11 +1,17 @@
 import  { useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../utils/data";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../store/userSlice";
 import UserCard from "./UserCard";
+import { useNavigate } from "react-router";
 
 const EditProfile = ({ user }) => {
+  const userData = useSelector((store) => store.user);
+  const navigate = useNavigate();
+  if(!userData){
+    navigate("/login")
+  }
   const dispatch = useDispatch();
 
   // .env import for cloudinary images
