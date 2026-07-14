@@ -49,7 +49,7 @@ const Feed = () => {
         setHasMore(false);
       }
 
-      // 🔥 increment ONLY after successful fetch
+      //  increment ONLY after successful fetch
       setPage((prev) => prev + 1);
     } catch (err) {
       console.error(err);

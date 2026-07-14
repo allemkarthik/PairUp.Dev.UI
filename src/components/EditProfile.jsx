@@ -62,7 +62,7 @@ const EditProfile = ({ user }) => {
         photoUrl: res.data.secure_url,
       }));
     } catch (err) {
-      setError("Image upload failed");
+      setError("Image upload failed"+err);
     }
   };
 

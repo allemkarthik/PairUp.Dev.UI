@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import { BASE_URL } from "../utils/data";
 import { useDispatch, useSelector } from "react-redux";
 import { addRequests, removeRequest } from "../store/requestsSlice";
@@ -28,7 +28,9 @@ const Requests = () => {
 
       // remove user when request is accept or rejected 
       dispatch(removeRequest(_id))
-    } catch (err) {}
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   // api to fetch all requests that we recieve

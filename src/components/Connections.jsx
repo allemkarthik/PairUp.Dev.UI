@@ -1,21 +1,19 @@
 import axios from "axios";
-import  { useEffect } from "react";
+import { useEffect } from "react";
 import { BASE_URL } from "../utils/data";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../store/connectionSlice";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 const Connections = () => {
   const connections = useSelector((store) => store.connections);
   const dispatch = useDispatch();
 
-   const userData = useSelector((store) => store.user);
+  const userData = useSelector((store) => store.user);
   const navigate = useNavigate();
-  if(!userData){
-    navigate("/login")
+  if (!userData) {
+    navigate("/login");
   }
-  
-
 
   //fetch connections
   const fetchConnection = async () => {
@@ -23,19 +21,18 @@ const Connections = () => {
       const res = await axios.get(BASE_URL + "/user/connections", {
         withCredentials: true,
       });
-      
+
       dispatch(addConnections(res?.data?.data));
     } catch (err) {
       // handle error case
       console.log(err);
-      
     }
   };
 
   useEffect(() => {
     fetchConnection();
   }, []);
-  
+
   if (!connections?.length) {
     return (
       <h1 className="text-center text-2xl my-10">No Connections Found!!</h1>
@@ -75,7 +72,9 @@ const Connections = () => {
 
                 <p>{about}</p>
               </div>
-              
+              <Link to={"/chat/" + _id}>
+                <button className="btn btn-primary">Chat</button>
+              </Link>
             </div>
           );
         })}
