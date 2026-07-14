@@ -1,11 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { createSocketConnection } from "../utils/socket";
 
 const Chat = () => {
   const { targetUserId } = useParams();
 
-  const [messages, setMessages]= useState()
+  const user = useSelector((store) => store.user);
+  const userId = user?._id;
+
+  console.log(userId);
+
+  const [messages, setMessages] = useState();
+
+  //connect to socket server
+  useEffect(() => {
+    const socket = createSocketConnection();
+    //as soon as page loads, socket connection is made and joinchat event is emitted
+    socket.emit("joinChat", { userId, targetUserId });
+
+    //when compo is unmount then disconnect socket
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   //subscribe to the store to get user info
   const connections = useSelector((store) => store.connections);
@@ -13,7 +31,6 @@ const Chat = () => {
   //find recevier user in connections
   const receiver = connections?.find((user) => user._id == targetUserId);
   console.log(receiver);
-  
 
   return (
     <div className="flex justify-center py-8">
@@ -22,7 +39,7 @@ const Chat = () => {
         <div className="border-b border-base-300 px-6 py-4 flex items-center gap-4">
           <div className="avatar online">
             <div className="w-12 rounded-full">
-              <img src={receiver.photoUrl} alt="profile" />
+              <img src={receiver?.photoUrl} alt="profile" />
             </div>
           </div>
 
