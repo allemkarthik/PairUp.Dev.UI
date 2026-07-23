@@ -1,108 +1,228 @@
-# 🚀 pairUp.dev
+# 🚀 PairUp.dev
 
-A full-stack developer networking platform that helps developers discover, connect, and build professional relationships with like-minded engineers.
+> A full-stack developer networking platform that enables developers to discover, connect, chat in real time, and grow their professional network.
 
-Inspired by modern networking platforms, pairUp.dev allows users to create profiles, browse developer feeds, send connection requests, manage connections, and grow their professional network.
+PairUp.dev is inspired by modern networking platforms, allowing developers to create professional profiles, discover like-minded engineers, send connection requests, chat instantly, and upgrade to premium memberships.
 
 ---
 
 ## 🌐 Live Demo
 
-🔗 https://your-domain.com
+### Frontend
+https://pairupdev.com
+
+### Backend API
+https://api.pairupdev.com
 
 ---
 
-## 📸 Features
+# 📸 Features
 
-### 🔐 Authentication & Security
-- JWT-based authentication
-- HTTP-only cookie sessions
-- Protected routes and middleware
-- Secure login and signup flow
+## 🔐 Authentication & Security
 
-### 👤 User Profiles
-- Create and update developer profiles
-- Add personal information and skills
-- Upload profile photos
-- Live profile editing experience
+- JWT Authentication
+- HTTP-only Cookies
+- Protected Routes
+- Password Hashing (bcrypt)
+- Input Validation
+- Secure Authentication Middleware
 
-### 🤝 Connection Management
+---
+
+## 👤 Developer Profiles
+
+- Create developer profile
+- Edit profile
+- Upload profile image (Cloudinary)
+- Skills management
+- About section
+- Date of Birth support
+- Birthday email automation
+- Live profile preview
+
+---
+
+## 🤝 Developer Connections
+
 - Browse developer feed
-- Send connection requests
+- Discover new developers
 - Ignore suggestions
-- Accept or reject incoming requests
+- Send connection requests
+- Accept requests
+- Reject requests
+- View received requests
 - View all accepted connections
 
-### 📡 REST API Architecture
-- Authentication APIs
-- Profile APIs
-- Connection Request APIs
-- Feed APIs
-- Request Management APIs
+---
 
-### 🎨 Responsive UI
-- Built using React and Tailwind CSS
-- DaisyUI components
-- Mobile-friendly design
-- Clean and intuitive user experience
+## 💬 Real-Time Chat
 
-### ☁️ Deployment
-- Frontend served through Nginx
-- Backend deployed on AWS EC2
-- MongoDB Atlas database
-- Secure client-server communication
+- Socket.IO based messaging
+- Instant one-to-one chat
+- Chat history stored in MongoDB
+- Load previous conversations
+- Join private chat rooms
+- Live message updates
 
 ---
 
-# 🛠️ Tech Stack
+## 💳 Premium Memberships
+
+Powered by Razorpay
+
+### Premium
+
+- 100 connection requests/day
+- Premium badge
+- Unlimited profile views
+- Unlimited developer search
+- Priority support
+- Early access to features
+
+### Premium Pro
+
+- Unlimited connection requests
+- Premium Pro badge
+- Unlimited messaging
+- Priority feed ranking
+- Profile viewer insights
+- AI profile optimization
+- Early feature access
+
+---
+
+## 💰 Payment System
+
+- Razorpay Checkout
+- Order creation
+- Payment verification
+- Secure webhook-ready architecture
+- Payment history stored in MongoDB
+
+---
+
+## 📧 Email Automation (AWS SES)
+
+- Welcome emails
+- Daily pending request reminders
+- Birthday wishes
+- Scheduled background jobs
+- SES Production Ready
+
+---
+
+## ⏰ Scheduled Jobs (node-cron)
+
+- Birthday email scheduler
+- Pending connection reminder emails
+- Automated daily tasks
+
+---
+
+## 🔍 Developer Feed
+
+- Pagination
+- Smart filtering
+- Excludes existing connections
+- Excludes ignored developers
+- Optimized MongoDB queries
+
+---
+
+## 📡 REST APIs
+
+- Authentication APIs
+- Profile APIs
+- Feed APIs
+- Connection APIs
+- Chat APIs
+- Premium APIs
+- Payment APIs
+
+---
+
+## ☁️ Deployment
+
+- Frontend deployed using Vercel
+- Backend hosted on AWS EC2
+- Nginx Reverse Proxy
+- MongoDB Atlas
+- Cloudinary CDN
+- AWS SES
+- Razorpay
+
+---
+
+# 🛠 Tech Stack
 
 ## Frontend
+
 - React.js
 - Redux Toolkit
 - React Router
+- Axios
 - Tailwind CSS
 - DaisyUI
-- Axios
 - Vite
-
-## Backend
-- Node.js
-- Express.js
-- JWT Authentication
-- Cookie Parser
-- Bcrypt
-
-## Database
-- MongoDB
-- Mongoose
-
-## DevOps & Deployment
-- AWS EC2
-- Nginx
-- Git
-- GitHub
+- Socket.IO Client
 
 ---
 
-# 🏗️ Architecture
+## Backend
+
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT
+- bcrypt
+- Cookie Parser
+- Socket.IO
+- Node Cron
+- AWS SDK
+- Razorpay
+
+---
+
+## Cloud Services
+
+- AWS EC2
+- AWS SES
+- MongoDB Atlas
+- Cloudinary
+- Razorpay
+
+---
+
+## DevOps
+
+- Git
+- GitHub
+- Nginx
+
+---
+
+# 🏗 Architecture
 
 ```text
-Client (React)
-       │
-       ▼
- Redux Store
-       │
-       ▼
- REST APIs
-       │
-       ▼
- Node.js + Express
-       │
-       ▼
- Authentication Middleware
-       │
-       ▼
- MongoDB Atlas
+                     React + Redux
+                           │
+                           │
+                    Axios / Socket.IO
+                           │
+          ┌────────────────┴────────────────┐
+          │                                 │
+     REST APIs                        WebSocket
+          │                                 │
+          └────────── Express.js ───────────┘
+                          │
+                Authentication Middleware
+                          │
+                      MongoDB Atlas
+                          │
+     ┌─────────────┬─────────────┬─────────────┐
+     │             │             │             │
+ Cloudinary      AWS SES      Razorpay     Node Cron
 ```
 
 ---
@@ -110,59 +230,61 @@ Client (React)
 # 📂 Project Structure
 
 ```text
-pairUp.dev
+PairUp.dev
+
+frontend/
 │
-├── frontend
-│   ├── src
-│   │   ├── components
-│   │   ├── store
-│   │   ├── utils
-│   │   └── App.jsx
-│   └── package.json
+├── src/
+│   ├── components/
+│   ├── pages/
+│   ├── store/
+│   ├── utils/
+│   ├── hooks/
+│   └── App.jsx
 │
-├── backend
-│   ├── src
-│   │   ├── models
-│   │   ├── routes
-│   │   ├── middleware
-│   │   ├── utils
-│   │   └── app.js
-│   └── package.json
+└── package.json
+
+
+backend/
 │
-└── README.md
+├── src/
+│   ├── models/
+│   ├── routes/
+│   ├── middleware/
+│   ├── config/
+│   ├── utils/
+│   ├── cronJobs/
+│   ├── app.js
+│   └── database.js
+│
+└── package.json
 ```
 
 ---
 
 # 🔑 Core Workflows
 
-## User Signup
+## User Authentication
 
 ```text
-User
-  │
-  ▼
-Signup Form
-  │
-  ▼
-POST /signup
-  │
-  ▼
-Password Hashing (bcrypt)
-  │
-  ▼
+Signup
+   │
+   ▼
+bcrypt Hash Password
+   │
+   ▼
 JWT Generated
-  │
-  ▼
-Cookie Created
-  │
-  ▼
-User Logged In
+   │
+   ▼
+HTTP-only Cookie
+   │
+   ▼
+Authenticated User
 ```
 
 ---
 
-## Connection Request Flow
+## Connection Workflow
 
 ```text
 Developer A
@@ -171,19 +293,88 @@ Developer A
 Interested
       │
       ▼
-POST /request/send/interested/:id
-      │
-      ▼
 Connection Request Created
       │
       ▼
-Developer B Receives Request
+Developer B
       │
       ▼
 Accept / Reject
       │
       ▼
 Connection Established
+```
+
+---
+
+## Chat Workflow
+
+```text
+Open Chat
+      │
+      ▼
+Join Socket Room
+      │
+      ▼
+Load Previous Messages
+      │
+      ▼
+Send Message
+      │
+      ▼
+Socket.IO
+      │
+      ▼
+MongoDB
+      │
+      ▼
+Receiver Instantly Gets Message
+```
+
+---
+
+## Payment Workflow
+
+```text
+Choose Membership
+        │
+        ▼
+Create Razorpay Order
+        │
+        ▼
+Open Checkout
+        │
+        ▼
+Payment Success
+        │
+        ▼
+Verify Signature
+        │
+        ▼
+Upgrade Membership
+```
+
+---
+
+## Birthday Email Workflow
+
+```text
+Node Cron
+      │
+      ▼
+Check Today's Date
+      │
+      ▼
+MongoDB Aggregation
+      │
+      ▼
+Birthday Users
+      │
+      ▼
+AWS SES
+      │
+      ▼
+Birthday Email Sent
 ```
 
 ---
@@ -198,6 +389,8 @@ POST /login
 POST /logout
 ```
 
+---
+
 ## Profile
 
 ```http
@@ -205,24 +398,92 @@ GET    /profile/view
 PATCH  /profile/edit
 ```
 
+---
+
 ## Feed
 
 ```http
-GET /feed
+GET /feed?page=1&limit=10
 ```
 
-## Requests
+---
+
+## Connection Requests
 
 ```http
 POST /request/send/:status/:userId
+
 POST /request/review/:status/:requestId
-GET  /user/requests/received
+
+GET /user/requests/received
+
+GET /user/connections
 ```
 
-## Connections
+---
+
+## Chat
 
 ```http
-GET /user/connections
+GET /chat/:targetUserId
+```
+
+---
+
+## Premium
+
+```http
+GET /premium/verify
+```
+
+---
+
+## Payments
+
+```http
+POST /payment/create
+
+POST /payment/webhook
+```
+
+---
+
+# ⚙️ Environment Variables
+
+## Backend
+
+```env
+PORT=
+
+MONGO_URI=
+
+JWT_SECRET=
+
+CLIENT_URL=
+
+AWS_ACCESS_KEY_ID=
+
+AWS_SECRET_ACCESS_KEY=
+
+AWS_REGION=
+
+AWS_SES_FROM_EMAIL=
+
+RAZORPAY_KEY_ID=
+
+RAZORPAY_KEY_SECRET=
+```
+
+---
+
+## Frontend
+
+```env
+VITE_BASE_URL=
+
+VITE_CLOUDINARY_CLOUD_NAME=
+
+VITE_CLOUDINARY_UPLOAD_PRESET=
 ```
 
 ---
@@ -232,10 +493,24 @@ GET /user/connections
 ## Clone Repository
 
 ```bash
-git clone https://github.com/allemkarthik/pairUp.dev.git
+git clone https://github.com/allemkarthik/PairUp.dev.git
 ```
 
-## Frontend Setup
+---
+
+## Backend
+
+```bash
+cd backend
+
+npm install
+
+npm run dev
+```
+
+---
+
+## Frontend
 
 ```bash
 cd frontend
@@ -245,67 +520,55 @@ npm install
 npm run dev
 ```
 
-## Backend Setup
+---
 
-```bash
-cd backend
+# 🔒 Security
 
-npm install
-
-npm start
-```
+- JWT Authentication
+- HTTP-only Cookies
+- bcrypt Password Hashing
+- Protected APIs
+- Secure Environment Variables
+- CORS Configuration
+- Request Validation
+- Razorpay Signature Verification
+- AWS IAM Credentials
 
 ---
 
-# 🔐 Environment Variables
 
-Backend `.env`
 
-```env
-PORT=7777
+# 🚀 Future Enhancements
 
-MONGO_URI=your_mongodb_connection_string
-
-JWT_SECRET=your_jwt_secret
-
-CLIENT_URL=http://localhost:5173
-```
-
----
-
-# 📈 Resume Highlights
-
-- Built a full-stack developer networking platform using React, Redux Toolkit, Node.js, Express.js, and MongoDB.
-- Designed and implemented 15+ RESTful APIs for authentication, profile management, user discovery, and connection workflows.
-- Developed JWT-based authentication with HTTP-only cookies and protected routes.
-- Engineered scalable MongoDB schemas for user relationships and connection management.
-- Deployed production infrastructure using AWS EC2 and Nginx.
-
----
-
-# 🔮 Future Enhancements
-
-- Payment integration
-- Sending Emails using amazon SES
-- Real-time notifications using Socket.IO
-- Instant messaging between connections
-- AI-powered developer matching
-- Advanced search and filtering
-- CI/CD with GitHub Actions
-- Dockerized deployment
-- Infinite scrolling feed
+- Push Notifications
+- Read Receipts
+- Typing Indicators
+- Video Calling
+- AI Developer Matching
+- Recommendation Engine
+- Resume Builder
+- GitHub Profile Import
+- OAuth Login
+- CI/CD using GitHub Actions
+- Docker & Kubernetes Deployment
+- Microservice Architecture
 
 ---
 
 # 👨‍💻 Author
 
-**Sai Karthik Allem**
+## Allem Sai Karthik
 
-Full-Stack Software Engineer
+Master's in Computer Science  
+St Francis College
+
+### Connect with me
 
 - GitHub: https://github.com/allemkarthik
-- LinkedIn: https://linkedin.com/in/your-profile
+- LinkedIn: https://linkedin.com/in/allemkarthik
 
 ---
 
-⭐ If you found this project useful, consider giving it a star.
+## ⭐ Support
+
+If you found this project useful, consider giving it a ⭐ on GitHub.
