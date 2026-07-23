@@ -11,9 +11,11 @@ const Connections = () => {
 
   const userData = useSelector((store) => store.user);
   const navigate = useNavigate();
-  if (!userData) {
-    navigate("/login");
-  }
+  useEffect(() => {
+    if (!userData) {
+      navigate("/login");
+    }
+  }, [userData, navigate]);
 
   //fetch connections
   const fetchConnection = async () => {
