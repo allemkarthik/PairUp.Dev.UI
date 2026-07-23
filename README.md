@@ -143,7 +143,7 @@ Powered by Razorpay
 
 ## ☁️ Deployment
 
-- Frontend deployed using Vercel
+- Frontend deployed on AWS EC2
 - Backend hosted on AWS EC2
 - Nginx Reverse Proxy
 - MongoDB Atlas
